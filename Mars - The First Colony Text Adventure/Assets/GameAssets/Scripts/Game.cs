@@ -57,7 +57,7 @@ public class Game : MonoBehaviour {
 	// Start
 	private void SceneStart()
 	{
-		GUIManager.instance._storyText.text = "This is the story text. Write your scene here...";
+		GUIManager.instance._storyText.text = "You wake up in bed. It is 5:00 Martian Time.";
 	}
 	#endregion
 }
