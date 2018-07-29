@@ -11,7 +11,7 @@ public class GUIManager : MonoBehaviour {
 	public GameObject _mainMenu;
 	public GameObject _chapterOne;
 
-	public TMP_Text _storyText;
+	public TextMeshProUGUI _storyText;
 
 	private void Awake()
 	{
