@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-	public static GameManager instance = null;
+	public static GameManager Instance = null;
 
 	// Setup chapters and scenes
 	public Chapter chapter = Chapter.One;
@@ -12,42 +14,51 @@ public class GameManager : MonoBehaviour {
 
 	private void Awake()
 	{
-		if (instance == null)
+		if (Instance == null)
 		{
-			instance = this;
+			Instance = this;
 		}
-		else if (instance != this)
+		else if (Instance != this)
 		{
 			Destroy(gameObject);
 		}
 	}
 
+	private void Start()
+	{
+		if(SceneManager.GetActiveScene().buildIndex == 0)
+		{
+			StartCoroutine(ToMainMenu());
+		}
+	}
+
 	private void Update()
 	{
-		switch (chapter)
-		{
-			case Chapter.One:
-				ChapterOne();
-				break;
-			case Chapter.Two:
-				ChapterTwo();
-				break;
-			case Chapter.Three:
-				ChapterThree();
-				break;
-		}
+		//switch (chapter)
+		//{
+		//	case Chapter.One:
+		//		ChapterOne();
+		//		break;
+		//	case Chapter.Two:
+		//		ChapterTwo();
+		//		break;
+		//	case Chapter.Three:
+		//		ChapterThree();
+		//		break;
+		//}
 
-		if (Input.anyKeyDown)
-		{			
-			StartCoroutine(GUIManager.instance.FirstFade());
-			SaveManager.instance.Load();
-		}
+		//if (Input.anyKeyDown)
+		//{			
+		//	StartCoroutine(GUIManager.Instance.FirstFade());
+		//	SaveManager.Instance.Load();
+		//	Debug.Log("Current chapter: " + SaveManager.Instance.state.Chapter);
+		//}
 
-		if (Input.GetKeyDown(KeyCode.S))
-		{
-			SaveManager.instance.Save();
-			Debug.Log("Current chapter: " + SaveManager.instance.state.Chapter);
-		}
+		//if (Input.GetKeyDown(KeyCode.S))
+		//{
+		//	SaveManager.Instance.Save();
+		//	Debug.Log("Current chapter: " + SaveManager.Instance.state.Chapter);
+		//}
 	}
 
 	// Chapters
@@ -81,7 +92,13 @@ public class GameManager : MonoBehaviour {
 	// Start
 	private void SceneStart()
 	{
-		GUIManager.instance.storyText.text = "You wake up in bed. It is 5:00 Martian Time.";
+		GUIManager.Instance.storyText.text = "You wake up in bed. It is 5:00 Martian Time.";
 	}
 	#endregion
+
+	private IEnumerator ToMainMenu()
+	{
+		yield return new WaitForSeconds(6);
+		SceneManager.LoadScene(1);
+	}
 }

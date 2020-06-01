@@ -3,33 +3,47 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
+[Serializable]
 public class SaveManager : MonoBehaviour
 {
-    public static SaveManager instance = null;
+    public static SaveManager Instance = null;
+    private  const string SAVE_SEPERATOR = "#SAVE-VALUE#";
+    private string SAVE_FOLDER;
 
-    private void Awake()
+    [Header("Logic")]
+    [SerializeField] private string saveFileName = "mars";
+    [SerializeField] private bool loadOnStart = false;
+    [SerializeField] private bool useBinaryFormat = false;
+    [SerializeField] private string binaryFileExtension = ".save";
+    [SerializeField] public SaveState state;
+    private BinaryFormatter formatter;
+
+    public void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
+
+        SAVE_FOLDER = Application.dataPath + "/Saves/";
+
+        // Setup the save folder
+        if (!Directory.Exists(SAVE_FOLDER))
+        {
+            Directory.CreateDirectory(SAVE_FOLDER);
+        }
     }
 
-    [Header("Logic")]
-    [SerializeField] private string saveFileName = "mars.sav";
-    [SerializeField] private bool loadOnStart = false;
-    [HideInInspector] public SaveState state;
-    private BinaryFormatter formatter;
-
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         // Initialize the formatter, make this script persist
         formatter = new BinaryFormatter();
+
         DontDestroyOnLoad(this.gameObject);
 
         if (loadOnStart)
@@ -38,15 +52,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Save()
     {
-        // If there's no previous state loaded, create new one
+
+        //If there's no previous state loaded, create new one
         if (state == null)
         {
             state = new SaveState();
@@ -54,30 +63,62 @@ public class SaveManager : MonoBehaviour
         }
 
         // Set the time at which we've tried saving
-        state.Chapter = GameManager.instance.chapter;
+        //state = new SaveState();
+
+        state.Chapter = GameManager.Instance.chapter;
         state.LastSaveTime = DateTime.Now;
 
-        var file = new FileStream(saveFileName, FileMode.Create, FileAccess.Write);
-        formatter.Serialize(file, state);
-        file.Close();
+        // Using binary format
+        if (useBinaryFormat)
+        {
+            var file = new FileStream(SAVE_FOLDER + saveFileName + binaryFileExtension, FileMode.Create, FileAccess.Write);
+            formatter.Serialize(file, state);
+            file.Close();
+        }
+        else
+        {
+            string json = JsonUtility.ToJson(state);
+            Debug.Log(json);
+            File.WriteAllText(SAVE_FOLDER + saveFileName + ".txt", json);
+        }
+        
         Debug.Log("Game saved...");
     }
 
     public void Load()
     {
+        formatter = new BinaryFormatter();
         // Open a physical file, on your disk to hold the save
-        try
+        if (useBinaryFormat)
         {
-            var file = new FileStream(saveFileName, FileMode.Open, FileAccess.Read);
-            // If we found the file, open and read it
-            state = (SaveState)formatter.Deserialize(file);
-            file.Close();
-            Debug.Log("Game loaded...");
+            if(File.Exists(SAVE_FOLDER + saveFileName + binaryFileExtension))
+            {
+                var file = new FileStream(SAVE_FOLDER + saveFileName + binaryFileExtension, FileMode.Open, FileAccess.Read);
+                // If we found the file, open and read it
+                SaveState state = (SaveState)formatter.Deserialize(file);
+                file.Close();
+                Debug.Log("Game loaded...");
+            }
+            else
+            {
+                Debug.Log("No save file found, creating new save file...");
+                Save();
+            }
         }
-        catch
+        else
         {
-            Debug.Log("No save file found, creating new save file...");
-            Save();
+            if(File.Exists(SAVE_FOLDER + saveFileName + ".txt"))
+            {
+                string json = File.ReadAllText(SAVE_FOLDER + saveFileName + ".txt");
+                SaveState state = JsonUtility.FromJson<SaveState>(json);
+                Debug.Log("Game loaded...");
+            }
+            else
+            {
+                Debug.Log("No save file found, creating new save file...");
+                Save();
+            }
         }
+            
     }
 }

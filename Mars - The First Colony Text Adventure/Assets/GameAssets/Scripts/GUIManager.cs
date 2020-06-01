@@ -4,7 +4,7 @@ using TMPro;
 
 public class GUIManager : MonoBehaviour {
 
-	public static GUIManager instance = null;
+	public static GUIManager Instance = null;
 
 	public GameObject mainMenu;
 	public GameObject story;
@@ -19,11 +19,11 @@ public class GUIManager : MonoBehaviour {
 
 	private void Awake()
 	{
-		if(instance == null)
+		if(Instance == null)
 		{
-			instance = this;
+			Instance = this;
 		}
-		else if (instance != this)
+		else if (Instance != this)
 		{
 			Destroy(gameObject);
 		}
@@ -31,14 +31,14 @@ public class GUIManager : MonoBehaviour {
 
 	private void Start()
 	{
-		anim = GetComponent<Animator>();
+		//anim = GetComponent<Animator>();
 
-		// Reset scenes to default start
-		mainMenu.SetActive(true);
-		story.SetActive(false);
-		storyBg.SetActive(false);
-		chapterOne.SetActive(false);
-		chapterTwo.SetActive(false);
+		//// Reset scenes to default start
+		//mainMenu.SetActive(true);
+		//story.SetActive(false);
+		//storyBg.SetActive(false);
+		//chapterOne.SetActive(false);
+		//chapterTwo.SetActive(false);
 	}
 
 	public IEnumerator FirstFade()
