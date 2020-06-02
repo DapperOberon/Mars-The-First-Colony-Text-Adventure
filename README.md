@@ -9,7 +9,7 @@ A text adventure that explores the first colony on Mars.
 
 **Core mechanic**:  Make your own story
 
-**Theme**: 80s Sci-Fi
+**Theme**: Retro Futurism/80s Sci-Fi
 
 **Core game loop**: Player is shown text on what is happening in the world and is given 1 to 3 choices on how to progress
 
@@ -17,7 +17,7 @@ A text adventure that explores the first colony on Mars.
 
 ## Story Hooks
 
-**Who is the player?** A male Martian colonist.
+**Who is the player?** A male/female Martian colonist.
 
 **What is the setting?** The first Martian colony.
 
