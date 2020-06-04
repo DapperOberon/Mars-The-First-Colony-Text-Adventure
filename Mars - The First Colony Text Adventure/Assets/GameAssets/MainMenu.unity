@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 130933496}
   - component: {fileID: 130933495}
   m_Layer: 0
-  m_Name: GUIFade
+  m_Name: GUI Fade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65882355, g: 0.3254902, b: 0.09803922, a: 0}
+  m_Color: {r: 0.7921569, g: 0.26666668, b: 0.14509805, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 227691554}
   - component: {fileID: 227691553}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 1055561780}
   - component: {fileID: 1055561781}
   m_Layer: 0
-  m_Name: MainMenu
+  m_Name: Main Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -850,7 +850,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.65882355, g: 0.3254902, b: 0.098039225, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -909,7 +909,7 @@ GameObject:
   - component: {fileID: 1678420827}
   - component: {fileID: 1678420826}
   m_Layer: 0
-  m_Name: StoryBG
+  m_Name: Story BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -947,7 +947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65882355, g: 0.3254902, b: 0.09803922, a: 1}
+  m_Color: {r: 0.7921569, g: 0.26666668, b: 0.14509805, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1049,7 +1049,7 @@ GameObject:
   - component: {fileID: 1879242281}
   - component: {fileID: 1879242280}
   m_Layer: 0
-  m_Name: GUIManager
+  m_Name: GUI Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1086,12 +1086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71efb3134f72ca04783cb1077aab6f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenu: {fileID: 0}
-  story: {fileID: 0}
-  storyBg: {fileID: 1678420824}
   storyText: {fileID: 0}
-  chapterOne: {fileID: 0}
-  chapterTwo: {fileID: 0}
 --- !u!4 &1879242282
 Transform:
   m_ObjectHideFlags: 0

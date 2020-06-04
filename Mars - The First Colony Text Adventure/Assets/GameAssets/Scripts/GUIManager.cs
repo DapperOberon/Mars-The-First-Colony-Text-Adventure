@@ -6,14 +6,14 @@ public class GUIManager : MonoBehaviour {
 
 	public static GUIManager Instance = null;
 
-	public GameObject mainMenu;
-	public GameObject story;
-	public GameObject storyBg;
+	//public GameObject mainMenu;
+	//public GameObject story;
+	//public GameObject storyBg;
 	public TextMeshProUGUI storyText;
 
-	[Space]
-	public GameObject chapterOne;
-	public GameObject chapterTwo;
+	//[Space]
+	//public GameObject chapterOne;
+	//public GameObject chapterTwo;
 
 	private Animator anim;
 
@@ -31,7 +31,7 @@ public class GUIManager : MonoBehaviour {
 
 	private void Start()
 	{
-		//anim = GetComponent<Animator>();
+		anim = GetComponent<Animator>();
 
 		//// Reset scenes to default start
 		//mainMenu.SetActive(true);
@@ -47,10 +47,10 @@ public class GUIManager : MonoBehaviour {
 
 		yield return new WaitForSeconds(1.5f); // Half of the total length of fade clip. If clip length is change, this value must change too.
 
-		mainMenu.SetActive(false);
-		story.SetActive(true);
-		storyBg.SetActive(true);
-		chapterOne.SetActive(true);
+		//mainMenu.SetActive(false);
+		//.SetActive(true);
+		//storyBg.SetActive(true);
+		//chapterOne.SetActive(true);
 	}
 
 	private IEnumerator Fade(GameObject from, GameObject to)

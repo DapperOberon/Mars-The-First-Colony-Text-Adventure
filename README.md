@@ -24,4 +24,3 @@ A text adventure that explores the first colony on Mars.
 **What is the threat?** The indigenous Martians.
 
 **What is the goal?** Survive a day on Mars. (Eventually, survive a week, a month, a year, etc. finding out more about the indigenous Martians)
-

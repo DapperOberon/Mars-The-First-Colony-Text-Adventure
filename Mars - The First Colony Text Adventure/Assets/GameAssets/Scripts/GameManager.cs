@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,11 +7,14 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance = null;
 
+	[SerializeField] State startingState;
+	State state;
+
 	// Setup chapters and scenes
-	public Chapter chapter = Chapter.One;
-	public enum Chapter { One, Two, Three };
-	public Scene scene = Scene.Start;
-	public enum Scene { Start };
+	//public Chapter chapter = Chapter.One;
+	//public enum Chapter { One, Two, Three };
+	//public Scene scene = Scene.Start;
+	//public enum Scene { Start };
 
 	private void Awake()
 	{
@@ -26,14 +30,22 @@ public class GameManager : MonoBehaviour {
 
 	private void Start()
 	{
+		state = startingState;
 		if(SceneManager.GetActiveScene().buildIndex == 0)
 		{
 			StartCoroutine(ToMainMenu());
+		}
+
+		if(SceneManager.GetActiveScene().buildIndex == 2)
+		{
+			GUIManager.Instance.storyText.text = state.GetStateStory();
 		}
 	}
 
 	private void Update()
 	{
+		ManageState();
+
 		//switch (chapter)
 		//{
 		//	case Chapter.One:
@@ -64,30 +76,28 @@ public class GameManager : MonoBehaviour {
 	// Chapters
 	#region
 	// One
-	private void ChapterOne()
-	{
-		switch (scene)
-		{
-			case Scene.Start:
-				SceneStart();
-				break;
-		}
-	}
+	//private void ChapterOne()
+	//{
+	//	switch (scene)
+	//	{
+	//		case Scene.Start:
+	//			SceneStart();
+	//			break;
+	//	}
+	//}
 
-	// Two
-	private void ChapterTwo()
-	{
+	//// Two
+	//private void ChapterTwo()
+	//{
 
-	}
+	//}
 
-	// Three
-	private void ChapterThree()
-	{
+	//// Three
+	//private void ChapterThree()
+	//{
 
-	}
-	#endregion
+	//}
 
-	// Scenes
 	#region
 	// Start
 	private void SceneStart()
@@ -100,5 +110,26 @@ public class GameManager : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(6);
 		SceneManager.LoadScene(1);
+	}
+	#endregion
+
+	private void ManageState()
+	{
+		var nextStates = state.GetNextStates();
+
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			state = nextStates[0];
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			state = nextStates[1];
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			state = nextStates[2];
+		}
+
+		GUIManager.Instance.storyText.text = state.GetStateStory();
 	}
 }
