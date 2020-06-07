@@ -31,21 +31,39 @@ public class GameManager : MonoBehaviour {
 	private void Start()
 	{
 		state = startingState;
-		if(SceneManager.GetActiveScene().buildIndex == 0)
-		{
-			StartCoroutine(ToMainMenu());
-		}
+		//if(SceneManager.GetActiveScene().buildIndex == 0)
+		//{
+		//	StartCoroutine(ToMainMenu());
+		//}
 
-		if(SceneManager.GetActiveScene().buildIndex == 2)
-		{
-			GUIManager.Instance.storyText.text = state.GetStateStory();
-		}
+		//if(SceneManager.GetActiveScene().buildIndex == 2)
+		//{
+		//	GUIManager.Instance.storyText.text = state.GetStateStory();
+		//}
 	}
 
 	private void Update()
 	{
-		ManageState();
+		switch (SceneManager.GetActiveScene().buildIndex)
+		{
+			case 0:
+				StartCoroutine(ToMainMenu());
+				break;
+			case 1:
+				if (Input.anyKeyDown)
+				{
+					ToGame();
+				}
+				break;
+			case 2:
+				ManageState();
+				break;
+		}
 
+		//if (SceneManager.GetActiveScene().buildIndex == 2)
+		//{
+		//	ManageState();
+		//}
 		//switch (chapter)
 		//{
 		//	case Chapter.One:
@@ -73,6 +91,12 @@ public class GameManager : MonoBehaviour {
 		//}
 	}
 
+	private void ToGame()
+	{
+		//StartCoroutine(GUIManager.Instance.Fade());
+		SceneManager.LoadScene(2);
+	}
+
 	// Chapters
 	#region
 	// One
@@ -98,14 +122,6 @@ public class GameManager : MonoBehaviour {
 
 	//}
 
-	#region
-	// Start
-	private void SceneStart()
-	{
-		GUIManager.Instance.storyText.text = "You wake up in bed. It is 5:00 Martian Time.";
-	}
-	#endregion
-
 	private IEnumerator ToMainMenu()
 	{
 		yield return new WaitForSeconds(6);
@@ -117,18 +133,30 @@ public class GameManager : MonoBehaviour {
 	{
 		var nextStates = state.GetNextStates();
 
-		if (Input.GetKeyDown(KeyCode.Alpha1))
+		for(int i = 0; i < nextStates.Length; i++)
 		{
-			state = nextStates[0];
+			if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+			{
+				state = nextStates[i];
+			}
 		}
-		else if (Input.GetKeyDown(KeyCode.Alpha2))
+
+		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			state = nextStates[1];
+			state = startingState;
 		}
-		else if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			state = nextStates[2];
-		}
+		//if (Input.GetKeyDown(KeyCode.Alpha1))
+		//{
+		//	state = nextStates[0];
+		//}
+		//else if (Input.GetKeyDown(KeyCode.Alpha2))
+		//{
+		//	state = nextStates[1];
+		//}
+		//else if (Input.GetKeyDown(KeyCode.Alpha3))
+		//{
+		//	state = nextStates[2];
+		//}
 
 		GUIManager.Instance.storyText.text = state.GetStateStory();
 	}

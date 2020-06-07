@@ -53,7 +53,14 @@ public class GUIManager : MonoBehaviour {
 		//chapterOne.SetActive(true);
 	}
 
-	private IEnumerator Fade(GameObject from, GameObject to)
+	public IEnumerator Fade()
+	{
+		anim.Play("GUIFade");
+
+		yield return new WaitForSeconds(1.5f); // Half of the total length of fade clip. If clip length is change, this value must change too.
+	}
+
+	private IEnumerator FadeTo(GameObject from, GameObject to)
 	{
 		anim.Play("GUIFade");
 

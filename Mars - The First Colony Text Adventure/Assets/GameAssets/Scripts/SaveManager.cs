@@ -80,7 +80,7 @@
 //            string json = JsonUtility.ToJson(state);
 //            Debug.Log(json);
 //            File.WriteAllText(SAVE_FOLDER + saveFileName + ".txt", json);
-//        }
+//        } 
         
 //        Debug.Log("Game saved...");
 //    }
