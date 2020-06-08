@@ -4,41 +4,36 @@ using TMPro;
 
 public class GUIManager : MonoBehaviour {
 
-	public static GUIManager Instance = null;
-
-	//public GameObject mainMenu;
-	//public GameObject story;
-	//public GameObject storyBg;
+	public static GUIManager instance = null;
 	public TextMeshProUGUI storyText;
-
-	//[Space]
-	//public GameObject chapterOne;
-	//public GameObject chapterTwo;
-
 	private Animator anim;
 
-	private void Awake()
+	void Awake()
 	{
-		if(Instance == null)
+		//Debug.Log(GetType().Name + " - Awoken. Initializing Singleton pattern. instance Id : " + gameObject.GetInstanceID());
+
+		if (instance == null)
 		{
-			Instance = this;
+			//Debug.Log(GetType().Name + " - Setting first instance. instance Id : " + gameObject.GetInstanceID());
+
+			//if not, set instance to this
+			instance = this;
 		}
-		else if (Instance != this)
+		else if (instance != this)
 		{
-			Destroy(gameObject);
+			//Debug.LogWarning(GetType().Name + " - Destroying secondary instance. instance Id : " + gameObject.GetInstanceID());
+
+			//Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GlobalManager.
+			DestroyImmediate(gameObject);
+
+			return;
 		}
+
 	}
 
 	private void Start()
 	{
 		anim = GetComponent<Animator>();
-
-		//// Reset scenes to default start
-		//mainMenu.SetActive(true);
-		//story.SetActive(false);
-		//storyBg.SetActive(false);
-		//chapterOne.SetActive(false);
-		//chapterTwo.SetActive(false);
 	}
 
 	public IEnumerator FirstFade()
@@ -46,11 +41,6 @@ public class GUIManager : MonoBehaviour {
 		anim.Play("GUIFade");
 
 		yield return new WaitForSeconds(1.5f); // Half of the total length of fade clip. If clip length is change, this value must change too.
-
-		//mainMenu.SetActive(false);
-		//.SetActive(true);
-		//storyBg.SetActive(true);
-		//chapterOne.SetActive(true);
 	}
 
 	public IEnumerator Fade()

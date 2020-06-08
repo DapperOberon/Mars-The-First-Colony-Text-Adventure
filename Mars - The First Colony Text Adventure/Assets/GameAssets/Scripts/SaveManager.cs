@@ -6,7 +6,7 @@
 //[Serializable]
 //public class SaveManager : MonoBehaviour
 //{
-//    public static SaveManager Instance = null;
+//    public static SaveManager instance = null;
 //    private  const string SAVE_SEPERATOR = "#SAVE-VALUE#";
 //    private string SAVE_FOLDER;
 
@@ -20,11 +20,11 @@
 
 //    public void Awake()
 //    {
-//        if (Instance == null)
+//        if (instance == null)
 //        {
-//            Instance = this;
+//            instance = this;
 //        }
-//        else if (Instance != this)
+//        else if (instance != this)
 //        {
 //            Destroy(gameObject);
 //        }
@@ -65,7 +65,7 @@
 //        // Set the time at which we've tried saving
 //        //state = new SaveState();
 
-//        state.Chapter = GameManager.Instance.chapter;
+//        state.Chapter = GameManager.instance.chapter;
 //        state.LastSaveTime = DateTime.Now;
 
 //        // Using binary format

@@ -5,135 +5,85 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-	public static GameManager Instance = null;
+	public static GameManager instance = null;
 
-	[SerializeField] State startingState;
+	[SerializeField] State menuState;
+	[SerializeField] State gameState;
 	State state;
 
-	// Setup chapters and scenes
-	//public Chapter chapter = Chapter.One;
-	//public enum Chapter { One, Two, Three };
-	//public Scene scene = Scene.Start;
-	//public enum Scene { Start };
-
-	private void Awake()
+	void Awake()
 	{
-		if (Instance == null)
+		//Debug.Log(GetType().Name + " - Awoken. Initializing Singleton pattern. instance Id : " + gameObject.GetInstanceID());
+
+		if (instance == null)
 		{
-			Instance = this;
+			//Debug.Log(GetType().Name + " - Setting first instance. instance Id : " + gameObject.GetInstanceID());
+
+			//if not, set instance to this
+			instance = this;
+
+			//Sets this to not be destroyed when reloading scene
+			DontDestroyOnLoad(gameObject);
 		}
-		else if (Instance != this)
+		else if (instance != this)
 		{
-			Destroy(gameObject);
+			//Debug.LogWarning(GetType().Name + " - Destroying secondary instance. instance Id : " + gameObject.GetInstanceID());
+
+			//Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GlobalManager.
+			DestroyImmediate(gameObject);
+
+			return;
 		}
+
 	}
 
 	private void Start()
 	{
-		state = startingState;
-		//if(SceneManager.GetActiveScene().buildIndex == 0)
-		//{
-		//	StartCoroutine(ToMainMenu());
-		//}
+		state = menuState;
+		AudioManager.instance.PlayMusic(state.GetMusic());
 
-		//if(SceneManager.GetActiveScene().buildIndex == 2)
-		//{
-		//	GUIManager.Instance.storyText.text = state.GetStateStory();
-		//}
+		if (SceneManager.GetActiveScene().name == "Splash")
+		{
+			//Debug.Log(SceneManager.GetActiveScene().name);
+			StartCoroutine(ToMainMenu());
+		}
 	}
 
 	private void Update()
 	{
-		switch (SceneManager.GetActiveScene().buildIndex)
+		if (SceneManager.GetActiveScene().name == "MainMenu")
 		{
-			case 0:
-				StartCoroutine(ToMainMenu());
-				break;
-			case 1:
-				if (Input.anyKeyDown)
-				{
-					ToGame();
-				}
-				break;
-			case 2:
-				ManageState();
-				break;
+			//Debug.Log(SceneManager.GetActiveScene().name);
+			if (Input.anyKeyDown)
+			{
+				ToGame();
+			}
 		}
+		else if (SceneManager.GetActiveScene().name == "Game")
+		{
+			//Debug.Log(SceneManager.GetActiveScene().name);
+			ManageState();
+		}
+	}
 
-		//if (SceneManager.GetActiveScene().buildIndex == 2)
-		//{
-		//	ManageState();
-		//}
-		//switch (chapter)
-		//{
-		//	case Chapter.One:
-		//		ChapterOne();
-		//		break;
-		//	case Chapter.Two:
-		//		ChapterTwo();
-		//		break;
-		//	case Chapter.Three:
-		//		ChapterThree();
-		//		break;
-		//}
-
-		//if (Input.anyKeyDown)
-		//{			
-		//	StartCoroutine(GUIManager.Instance.FirstFade());
-		//	SaveManager.Instance.Load();
-		//	Debug.Log("Current chapter: " + SaveManager.Instance.state.Chapter);
-		//}
-
-		//if (Input.GetKeyDown(KeyCode.S))
-		//{
-		//	SaveManager.Instance.Save();
-		//	Debug.Log("Current chapter: " + SaveManager.Instance.state.Chapter);
-		//}
+	private IEnumerator ToMainMenu()
+	{
+		yield return new WaitForSeconds(6f);
+		SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
 	}
 
 	private void ToGame()
 	{
-		//StartCoroutine(GUIManager.Instance.Fade());
-		SceneManager.LoadScene(2);
+		StartCoroutine(GUIManager.instance.Fade());
+		state = gameState;
+		SceneManager.LoadScene("Game", LoadSceneMode.Single);
 	}
-
-	// Chapters
-	#region
-	// One
-	//private void ChapterOne()
-	//{
-	//	switch (scene)
-	//	{
-	//		case Scene.Start:
-	//			SceneStart();
-	//			break;
-	//	}
-	//}
-
-	//// Two
-	//private void ChapterTwo()
-	//{
-
-	//}
-
-	//// Three
-	//private void ChapterThree()
-	//{
-
-	//}
-
-	private IEnumerator ToMainMenu()
-	{
-		yield return new WaitForSeconds(6);
-		SceneManager.LoadScene(1);
-	}
-	#endregion
 
 	private void ManageState()
 	{
 		var nextStates = state.GetNextStates();
 
-		for(int i = 0; i < nextStates.Length; i++)
+		for (int i = 0; i < nextStates.Length; i++)
 		{
 			if (Input.GetKeyDown(KeyCode.Alpha1 + i))
 			{
@@ -143,21 +93,9 @@ public class GameManager : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			state = startingState;
+			state = gameState;
 		}
-		//if (Input.GetKeyDown(KeyCode.Alpha1))
-		//{
-		//	state = nextStates[0];
-		//}
-		//else if (Input.GetKeyDown(KeyCode.Alpha2))
-		//{
-		//	state = nextStates[1];
-		//}
-		//else if (Input.GetKeyDown(KeyCode.Alpha3))
-		//{
-		//	state = nextStates[2];
-		//}
 
-		GUIManager.Instance.storyText.text = state.GetStateStory();
+		GUIManager.instance.storyText.text = state.GetStateStory();
 	}
 }

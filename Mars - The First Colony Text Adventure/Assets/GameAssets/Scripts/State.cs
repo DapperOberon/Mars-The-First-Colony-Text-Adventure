@@ -8,6 +8,9 @@ public class State : ScriptableObject
     [TextArea(10,14)] [SerializeField] string storyText;
 
     [SerializeField] State[] nextStates;
+    [SerializeField] AudioClip[] oneShots;
+    [SerializeField] AudioClip[] ambientSounds;
+    [SerializeField] AudioClip music;
 
     public string GetStateStory()
     {
@@ -18,4 +21,19 @@ public class State : ScriptableObject
     {
         return nextStates;
     }
+
+    public AudioClip[] GetOneShots()
+	{
+        return oneShots;
+	}
+
+    public AudioClip[] GetAmbientSounds()
+	{
+        return ambientSounds;
+	}
+
+    public AudioClip GetMusic()
+	{
+        return music;
+	}
 }
