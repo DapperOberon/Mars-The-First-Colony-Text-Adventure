@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae30c1ad6e7e504b927a6d12eba5f6b, type: 3}
   m_Name: C1. S1. A1. OpenEyes
   m_EditorClassIdentifier: 
+  storyImage: {fileID: 21300000, guid: bfbae1ac3f4431d448e0ec0300334354, type: 3}
   storyText: You open your eyes.
-  nextStates: []
+  nextStates:
+  - {fileID: 11400000, guid: 0d2a86286ccb2e74593d31958a0fcb40, type: 2}
+  oneShots: []
+  ambientSounds: []
+  music: {fileID: 8300000, guid: b832d160f2b68054a89039ae6c87fad1, type: 3}

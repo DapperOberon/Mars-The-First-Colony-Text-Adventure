@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] State menuState;
 	[SerializeField] State gameState;
 	State state;
+	State[] nextStates;
+	public Coroutine fadeCoroutine;
 
 	void Awake()
 	{
@@ -47,6 +49,16 @@ public class GameManager : MonoBehaviour {
 			//Debug.Log(SceneManager.GetActiveScene().name);
 			StartCoroutine(ToMainMenu());
 		}
+		else if(SceneManager.GetActiveScene().name == "Game")
+		{
+			state = gameState;
+			GUIManager.instance.storyText.text = state.GetStateStory();
+			GUIManager.instance.storyImage.sprite = state.GetStateImage();
+			if (state.GetMusic() != null)
+			{
+				AudioManager.instance.PlayMusic(state.GetMusic());
+			}
+		}
 	}
 
 	private void Update()
@@ -56,7 +68,7 @@ public class GameManager : MonoBehaviour {
 			//Debug.Log(SceneManager.GetActiveScene().name);
 			if (Input.anyKeyDown)
 			{
-				ToGame();
+				StartCoroutine(ToGame());
 			}
 		}
 		else if (SceneManager.GetActiveScene().name == "Game")
@@ -69,33 +81,75 @@ public class GameManager : MonoBehaviour {
 	private IEnumerator ToMainMenu()
 	{
 		yield return new WaitForSeconds(6f);
+
+		GUIManager.instance.ToMainMenu();
+
 		SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
 	}
 
-	private void ToGame()
+	private IEnumerator ToGame()
 	{
-		StartCoroutine(GUIManager.instance.Fade());
+		yield return StartCoroutine(GUIManager.instance.Fade());
+		GUIManager.instance.ToGame();
+
 		state = gameState;
+		GUIManager.instance.storyImage.sprite = state.GetStateImage();
+		GUIManager.instance.storyText.text = state.GetStateStory();
+		if (state.GetMusic() != null)
+		{
+			AudioManager.instance.PlayMusic(state.GetMusic());
+		}
+
 		SceneManager.LoadScene("Game", LoadSceneMode.Single);
 	}
 
 	private void ManageState()
 	{
-		var nextStates = state.GetNextStates();
+		//Debug.Log(state.name);
+		nextStates = state.GetNextStates();
 
 		for (int i = 0; i < nextStates.Length; i++)
 		{
 			if (Input.GetKeyDown(KeyCode.Alpha1 + i))
 			{
-				state = nextStates[i];
+				//yield return StartCoroutine(SetStoryText(i));
+				if (fadeCoroutine == null)
+				{
+					fadeCoroutine = StartCoroutine(SetStateContent(i));
+				}
+
 			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			state = gameState;
+			GUIManager.instance.storyText.text = state.GetStateStory();
+			GUIManager.instance.storyImage.sprite = state.GetStateImage();
+			if(state.GetMusic() != null)
+			{
+				AudioManager.instance.PlayMusic(state.GetMusic());
+			}
 		}
+		//GUIManager.instance.storyText.text = state.GetStateStory();
+	}
 
+	private IEnumerator SetStateContent(int i)
+	{
+		state = nextStates[i];
+		if (state.GetMusic() != null)
+		{
+			AudioManager.instance.FadeMusicOut(1.5f);
+		}
+		yield return StartCoroutine(GUIManager.instance.Fade());
+		GUIManager.instance.storyImage.sprite = state.GetStateImage();
 		GUIManager.instance.storyText.text = state.GetStateStory();
+		if(state.GetMusic() != null)
+		{
+			AudioManager.instance.PlayMusic(state.GetMusic());
+			AudioManager.instance.FadeMusicIn(3f);
+		}
+		yield return new WaitForSeconds(1.5f);
+		fadeCoroutine = null;
 	}
 }

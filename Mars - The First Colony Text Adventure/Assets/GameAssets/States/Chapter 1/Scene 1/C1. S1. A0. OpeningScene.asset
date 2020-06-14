@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae30c1ad6e7e504b927a6d12eba5f6b, type: 3}
   m_Name: C1. S1. A0. OpeningScene
   m_EditorClassIdentifier: 
+  storyImage: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   storyText: "You wake to the sound of an alarm going off. *Ring*, *ring*, *ring*...
     You feel tired and don't want to get up. The air feels cold and smells sterile.\r\n\nAs
     you lay in bed, you crack one eye open and see your dark room and get a glimpse
@@ -19,3 +20,6 @@ MonoBehaviour:
   nextStates:
   - {fileID: 11400000, guid: 995ed934fc1ede14c8cd8fc9ed3d7885, type: 2}
   - {fileID: 11400000, guid: 2fd5d7e5d6037ef4383c7795d439c189, type: 2}
+  oneShots: []
+  ambientSounds: []
+  music: {fileID: 8300000, guid: 24ca78abc0b0f834ebaac15ac9043263, type: 3}

@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
 	// Audio players components.
+	public AudioMixer mixer;
 	public AudioSource musicSource;
 
 	// Random pitch adjustment range.
@@ -55,14 +57,30 @@ public class AudioManager : MonoBehaviour
 		musicSource.Play();
 	}
 
-//	// Play a random clip from an array, and randomize the pitch slightly.
-//	public void RandomSoundEffect(params AudioClip[] clips)
-//	{
-//		int randomIndex = Random.Range(0, clips.Length);
-//		float randomPitch = Random.Range(LowPitchRange, HighPitchRange);
+	public AudioMixer GetMixer()
+	{
+		return mixer;
+	}
 
-//		EffectsSource.pitch = randomPitch;
-//		EffectsSource.clip = clips[randomIndex];
-//		EffectsSource.Play();
-//	}
+	public void FadeMusicOut(float fadeTime)
+	{
+		StartCoroutine(FadeMixerGroup.StartFade(mixer, "MusicVolume", fadeTime, -1f));
+	}
+
+	public void FadeMusicIn(float fadeTime)
+	{
+		StartCoroutine(FadeMixerGroup.StartFade(mixer, "MusicVolume", fadeTime, 1f));
+	}
+
+
+	//	// Play a random clip from an array, and randomize the pitch slightly.
+	//	public void RandomSoundEffect(params AudioClip[] clips)
+	//	{
+	//		int randomIndex = Random.Range(0, clips.Length);
+	//		float randomPitch = Random.Range(LowPitchRange, HighPitchRange);
+
+	//		EffectsSource.pitch = randomPitch;
+	//		EffectsSource.clip = clips[randomIndex];
+	//		EffectsSource.Play();
+	//	}
 }

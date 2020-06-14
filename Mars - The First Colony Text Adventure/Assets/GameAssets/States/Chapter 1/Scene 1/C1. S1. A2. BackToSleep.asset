@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: C1. S1. A2. BackToSleep
   m_EditorClassIdentifier: 
   storyText: You fall back to sleep.
-  nextStates: []
+  nextStates:
+  - {fileID: 11400000, guid: 0d2a86286ccb2e74593d31958a0fcb40, type: 2}
+  oneShots: []
+  ambientSounds: []
+  music: {fileID: 0}

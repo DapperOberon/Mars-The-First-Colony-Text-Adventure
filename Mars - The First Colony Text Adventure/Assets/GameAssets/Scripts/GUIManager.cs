@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour {
 
 	public static GUIManager instance = null;
 	public TextMeshProUGUI storyText;
+	public Image storyImage;
+	[SerializeField] private GameObject gameUI;
+	[SerializeField] private GameObject mainMenu;
+	[SerializeField] private GameObject splashUI;
 	private Animator anim;
 
 	void Awake()
@@ -18,6 +24,9 @@ public class GUIManager : MonoBehaviour {
 
 			//if not, set instance to this
 			instance = this;
+
+			//Sets this to not be destroyed when reloading scene
+			DontDestroyOnLoad(gameObject);
 		}
 		else if (instance != this)
 		{
@@ -36,11 +45,18 @@ public class GUIManager : MonoBehaviour {
 		anim = GetComponent<Animator>();
 	}
 
-	public IEnumerator FirstFade()
+	public void ToMainMenu()
 	{
-		anim.Play("GUIFade");
+		splashUI.SetActive(false);
+		mainMenu.SetActive(true);
+		gameUI.SetActive(false);
+	}
 
-		yield return new WaitForSeconds(1.5f); // Half of the total length of fade clip. If clip length is change, this value must change too.
+	public void ToGame()
+	{
+		splashUI.SetActive(false);
+		mainMenu.SetActive(false);
+		gameUI.SetActive(true);
 	}
 
 	public IEnumerator Fade()
