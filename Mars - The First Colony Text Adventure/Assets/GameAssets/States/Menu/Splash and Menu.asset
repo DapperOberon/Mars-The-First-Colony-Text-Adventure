@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae30c1ad6e7e504b927a6d12eba5f6b, type: 3}
   m_Name: Splash and Menu
   m_EditorClassIdentifier: 
+  storyImage: {fileID: 0}
   storyText: 
   nextStates: []
   oneShots: []
   ambientSounds: []
-  music: {fileID: 8300000, guid: 24ca78abc0b0f834ebaac15ac9043263, type: 3}
+  music: {fileID: 8300000, guid: 126f5247eb799a24d804eb7770d2f067, type: 3}
