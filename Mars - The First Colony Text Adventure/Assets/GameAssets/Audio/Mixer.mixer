@@ -87,6 +87,8 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: c73d40f2d9613a648835fdf556375df9
+    name: AmbientVolume
   - guid: a4f9003abeed9c043b2b0250ea78091d
     name: MusicVolume
   m_AudioMixerGroupViews:

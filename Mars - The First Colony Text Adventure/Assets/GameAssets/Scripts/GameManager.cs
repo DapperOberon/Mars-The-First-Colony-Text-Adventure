@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour {
 
 	private IEnumerator ToGame()
 	{
+		AudioManager.instance.FadeMusicOut(1.5f);
 		yield return StartCoroutine(GUIManager.instance.Fade());
 		GUIManager.instance.ToGame();
 
@@ -98,6 +99,13 @@ public class GameManager : MonoBehaviour {
 		if (state.GetMusic() != null)
 		{
 			AudioManager.instance.PlayMusic(state.GetMusic());
+			AudioManager.instance.FadeMusicIn(3f);
+		}
+
+		if(state.GetAmbientSounds() != null)
+		{	
+			AudioManager.instance.PlayAmbient(state.GetAmbientSounds());
+			AudioManager.instance.FadeAmbientIn(3f);
 		}
 
 		SceneManager.LoadScene("Game", LoadSceneMode.Single);
@@ -130,6 +138,11 @@ public class GameManager : MonoBehaviour {
 			{
 				AudioManager.instance.PlayMusic(state.GetMusic());
 			}
+
+			if(state.GetAmbientSounds() != null)
+			{
+				AudioManager.instance.PlayAmbient(state.GetAmbientSounds());
+			}
 		}
 		//GUIManager.instance.storyText.text = state.GetStateStory();
 	}
@@ -141,6 +154,7 @@ public class GameManager : MonoBehaviour {
 		{
 			AudioManager.instance.FadeMusicOut(1.5f);
 		}
+		StartCoroutine(AudioManager.instance.FadeAmbientOut(1.5f));
 		yield return StartCoroutine(GUIManager.instance.Fade());
 		GUIManager.instance.storyImage.sprite = state.GetStateImage();
 		GUIManager.instance.storyText.text = state.GetStateStory();
@@ -149,6 +163,7 @@ public class GameManager : MonoBehaviour {
 			AudioManager.instance.PlayMusic(state.GetMusic());
 			AudioManager.instance.FadeMusicIn(3f);
 		}
+		AudioManager.instance.FadeAmbientIn(3f);
 		yield return new WaitForSeconds(1.5f);
 		fadeCoroutine = null;
 	}

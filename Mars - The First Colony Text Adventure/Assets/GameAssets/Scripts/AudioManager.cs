@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
 	// Audio players components.
 	public AudioMixer mixer;
 	public AudioSource musicSource;
+	public GameObject ambient;
 
 	// Random pitch adjustment range.
 	public float LowPitchRange = .95f;
@@ -57,6 +58,19 @@ public class AudioManager : MonoBehaviour
 		musicSource.Play();
 	}
 
+	public void PlayAmbient(AudioClip[] clips)
+	{
+		foreach(AudioClip i in clips)
+		{
+			AudioSource source;
+			source = ambient.AddComponent<AudioSource>();
+			source.clip = i;
+			source.outputAudioMixerGroup = mixer.FindMatchingGroups("Ambient")[0];
+			source.loop = true;
+			source.Play();
+		}
+	}
+
 	public AudioMixer GetMixer()
 	{
 		return mixer;
@@ -72,6 +86,19 @@ public class AudioManager : MonoBehaviour
 		StartCoroutine(FadeMixerGroup.StartFade(mixer, "MusicVolume", fadeTime, 1f));
 	}
 
+	public IEnumerator FadeAmbientOut(float fadeTime)
+	{
+		yield return StartCoroutine(FadeMixerGroup.StartFade(mixer, "AmbientVolume", fadeTime, -1f));
+		foreach(AudioSource i in ambient.GetComponents<AudioSource>())
+		{
+			Destroy(i);
+		}
+	}
+
+	public void FadeAmbientIn(float fadeTime)
+	{
+		StartCoroutine(FadeMixerGroup.StartFade(mixer, "AmbientVolume", fadeTime, 1f));
+	}
 
 	//	// Play a random clip from an array, and randomize the pitch slightly.
 	//	public void RandomSoundEffect(params AudioClip[] clips)

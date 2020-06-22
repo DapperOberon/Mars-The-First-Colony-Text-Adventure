@@ -22,5 +22,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2fd5d7e5d6037ef4383c7795d439c189, type: 2}
   oneShots: []
   ambientSounds:
-  - {fileID: 8300000, guid: 203d710d7e45b5447b023e1428800ed6, type: 3}
+  - {fileID: 8300000, guid: 9160b33be46d2894590636e6b2460c7a, type: 3}
   music: {fileID: 8300000, guid: 24ca78abc0b0f834ebaac15ac9043263, type: 3}
